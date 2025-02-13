@@ -16,12 +16,12 @@ int sumofdigits(int n){
        for(int i=0;i<n;i++){
           int digitsum=sumofdigits(nums[i]);
           if(mp.count(digitsum)){
-            ans=max(ans,nums[i]+mp[digitsum]);
-              mp[digitsum]=max(nums[i],mp[digitsum]);
+            ans=max(ans,nums[i]+mp[digitsum]);//default value of a key is zero
+             
           }
-          else{
-            mp[digitsum]=nums[i];
-          }
+        
+             mp[digitsum]=max(nums[i],mp[digitsum]);
+        
        } 
 
         return ans;
