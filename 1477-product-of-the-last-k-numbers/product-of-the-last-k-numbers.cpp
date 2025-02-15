@@ -1,6 +1,6 @@
 class ProductOfNumbers {
 public:
- vector<int> nums;  
+ vector<int> nums;  //cumulative product
  int n;
     ProductOfNumbers() {
      nums.clear();
@@ -8,16 +8,30 @@ public:
     }
     
     void add(int num) {
-    nums.push_back(num);
+     if(num==0){
+        nums.clear();
+        n=0;
+     }
+     else if(!nums.empty()){
+        nums.push_back(num*nums[n-1]);
+        n++;
+     }
+     else{
+        nums.push_back(num);
+        n++;
+     }
     }
     
     int getProduct(int k) {
-        int prod=1,n=nums.size();
-
-        for(int i=n-k;i<n;i++){
-            prod*=nums[i];
-        }
-        return prod;
+      if(k>n){
+        return 0;
+      }
+      else if(k==n){
+        return nums[n-1];
+      }
+      else{
+        return nums[n-1]/nums[n-k-1];
+      }
     }
 };
 
