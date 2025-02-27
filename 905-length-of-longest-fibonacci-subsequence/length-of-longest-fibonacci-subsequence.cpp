@@ -1,33 +1,28 @@
 class Solution {
 public:
-    int solve(int i, int j, vector<int>& arr, unordered_map<int, int>& mp, vector<vector<int>>& dp) {
-        if (dp[i][j] != -1) return dp[i][j];  // Use memoization to avoid recomputation
-        
-        int check = arr[i] - arr[j];
-        if (check >= arr[j] || mp.find(check) == mp.end()) return dp[i][j] = 2;
+   int solve(int i,int j,vector<int>& arr,unordered_map<int,int> &mp) {
 
-        int k = mp[check];
-        if (k >= j) return dp[i][j] = 2;  // Prevent invalid recursion
-
-        return dp[i][j] = solve(j, k, arr, mp, dp) + 1;
+    int x=arr[i]-arr[j];
+    if(x<0){
+        return 2;
     }
-
-    int lenLongestFibSubseq(vector<int>& arr) {
-        int n = arr.size();
-        if (n < 3) return 0;  // Base case: Fibonacci sequence needs at least 3 elements
-
-        unordered_map<int, int> mp;
-        for (int i = 0; i < n; i++) mp[arr[i]] = i;
-
-        vector<vector<int>> dp(n, vector<int>(n, -1));  // Memoization table
-        int maxLength = 0;
-
-        for (int i = 2; i < n; i++) {
-            for (int j = i - 1; j >= 0; j--) {
-                maxLength = max(maxLength, solve(i, j, arr, mp, dp));
-            }
+    if(mp.find(x)!=mp.end()){
+        int k=mp[x];
+        if(k<j) return solve(j,k,arr,mp)+1;
+    }
+    return 2;
+   }
+   int lenLongestFibSubseq(vector<int>& arr) {
+    unordered_map<int,int> mp;
+    int n=arr.size(),ml=0;
+    for(int i=0;i<n;i++){
+        mp[arr[i]]=i;
+    }
+    for(int i=n-1;i>=2;i--){
+        for(int j=i-1;j>=1;j--){
+            ml=max(ml,solve(i,j,arr,mp));
         }
-
-        return maxLength > 2 ? maxLength : 0;  // If no sequence found, return 0
+    }
+    return ml>2? ml:0;
     }
 };
