@@ -13,12 +13,13 @@ public:
            
              if(sum%2==0){
                 ans+=oct;
+                ect++;
             }
             else{
                 ans+=ect;
+                oct++;
             }
-             if (sum % 2 == 0) ect++;
-               else oct++;
+            
 
           ans=ans%mod;
         }
