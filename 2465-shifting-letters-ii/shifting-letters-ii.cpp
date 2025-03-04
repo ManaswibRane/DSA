@@ -18,7 +18,7 @@ public:
         } 
         for (int j = 0; j < m; j++) {
             
-            s[j] = 'a' + ( (s[j] - 'a' + count[j]) % 26 + 26 ) % 26; 
+            s[j] = 'a' + (s[j] - 'a' + count[j]%26 +26) % 26 ; 
         }
 
         return s;
