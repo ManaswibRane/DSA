@@ -17,8 +17,11 @@ public:
             count[j] = sum;
         } 
         for (int j = 0; j < m; j++) {
-            
-            s[j] = 'a' + (s[j] - 'a' + count[j]%26 +26) % 26 ; 
+           count[j]= count[j]%26;
+            if(count[j]<0){
+                count[j]+=26;
+            }
+            s[j] = 'a' + (s[j] - 'a' + count[j]) % 26 ; 
         }
 
         return s;
