@@ -6,20 +6,17 @@ public:
             colors.push_back(colors[i]);
         }
 
-        int j=1,N=n+k-1,i=0;
-        while(j<N){
-            if(colors[j]==colors[j-1]){
-                i=j;
-                j++;
-                continue;
-            }
-            if(j-i+1==k){
-                sum++;
-                i++;
-
-            }
-            j++;
-        }
+        int N=n+k-1,i=1,l=1;
+       while(i<N){
+           if(colors[i]!=colors[i-1]){
+               l++;
+               if(l>=k) sum++;
+           }
+           else{
+            l=1;
+           }
+           i++;
+       }
         return sum;
     }
 };
