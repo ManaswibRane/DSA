@@ -18,7 +18,7 @@ public:
            maxC=max(maxC,candy);
          }
           int st=1,end=maxC;
-         while(st<=end){
+         while(end>=st){
             int mid=st+(end-st)/2;
           if(maxCandy(mid,c,k)) {ans=mid;st=mid+1;}
           else{
