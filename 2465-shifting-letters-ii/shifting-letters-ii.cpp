@@ -1,29 +1,29 @@
 class Solution {
 public:
-    string shiftingLetters(string s, vector<vector<int>>& sh) {
-        int m = s.length();
-        vector<int> count(m + 1, 0); 
-        for (const auto& i : sh) {
-            int st = i[0], end = i[1], x = i[2];
-            if(x==0) x=-1;
-            count[st] += x;  
-            if (end + 1 < m) count[end + 1] -= x;  
+    string shiftingLetters(string s, vector<vector<int>>& shifts) {
+        int n=s.length();
+        vector<int> diffArray(n,0);
+        for(auto shift: shifts){
+            int st=shift[0];
+            int end=shift[1];
+            int q=shift[2];
+            if(q==0) {q=-1;}
+            diffArray[st]+=q;
+            if( (end+1) < n) diffArray[end+1]-=q;
         }
+        int sum=0;
+        for(int i=0;i<n;i++){
+           diffArray[i]+=sum;
+           sum=diffArray[i];
+    
+             diffArray[i]= diffArray[i]%26;
+         if(diffArray[i]<0){
+            diffArray[i]+=26;
 
+         }
+         s[i]=( ((s[i]-'a') + diffArray[i]) % 26) +'a';
 
-        int sum = 0;
-        for (int j = 0; j < m; j++) {
-            sum += count[j];
-            count[j] = sum;
-        } 
-        for (int j = 0; j < m; j++) {
-           count[j]= count[j]%26;
-            if(count[j]<0){
-                count[j]+=26;
-            }
-            s[j] = 'a' + (s[j] - 'a' + count[j]) % 26 ; 
         }
-
-        return s;
+      return s;
     }
 };
