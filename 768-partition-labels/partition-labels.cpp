@@ -1,32 +1,27 @@
 class Solution {
 public:
     vector<int> partitionLabels(string s) {
-        unordered_map<char, int> lastIdx;
-        unordered_map<char, int> firstIdx;
-        int len = s.length();
-        for (int i = 0; i < len; i++) {
-            if (firstIdx.find(s[i]) == firstIdx.end()) {
-                firstIdx[s[i]] = i;
-            }
-            lastIdx[s[i]] = i;
+    
+        vector<int> index(26,0);
+        for(int i=0;i<s.length();i++){
+            char ch=s[i];
+              index[ch-'a']=i;
+             
         }
-
+       
+        int i=0;
         vector<int> ans;
-        int i = 0;
-        while (i < len) {
-            int first = firstIdx[s[i]];
-            int last = lastIdx[s[i]];
-            int j = first;
+        int end;
+        while(i<s.length()){
+              char ch=s[i];
+                 end=index[ch-'a'];
+                 for(int j=i;j<=end;j++){
+                     end=max(index[s[j]-'a'],end);
+                 }
+                ans.push_back(end-i+1);
+                i=end+1;
 
-            while (j <= last) {
-                last = max(last, lastIdx[s[j]]);
-                j++;
-            }
-
-            ans.push_back(j - first);
-            i = j; 
         }
-
-        return ans;
+             return ans;
     }
 };
