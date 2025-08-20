@@ -1,7 +1,7 @@
 class MyCalendar {
 public:
     typedef pair<int ,int> P;
-    vector<P> calender;
+    set<P> st;
 
 
     MyCalendar() {
@@ -9,17 +9,19 @@ public:
     }
     
     bool book(int s, int e) {
-        int n=calender.size();
-        
-        for(int i=0;i<n;i++){
-            int st=calender[i].first;
-            int end=calender[i].second;
-            if( (e>st && s<end)){
-                 return false;
+         auto it=st.lower_bound({s,e});
+         if(it!=st.end() && it->first < e){
+            return false;
+         }
+
+         if(it!=st.begin()){
+            auto pr=prev(it);
+            if(pr->second > s){
+                return false;
             }
-        }
-       calender.push_back({s,e});
-       return true;
+         }
+         st.insert({s,e});
+         return true;
     }
 };
 
