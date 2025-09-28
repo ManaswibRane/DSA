@@ -1,35 +1,38 @@
 class Solution {
 public:
-
-    bool unique(string s1,string s2){
-        vector<int> val(26,0);
-        for(char ch: s2){
-            if(val[ch-'a']>0) return true;
-            val[ch-'a']++;
+bool takePoss(unordered_set<char>& mp,string t){
+    sort(t.begin(),t.end());
+    for(int i=1;i<t.length();i++){
+        if(t[i]==t[i-1]){
+            return false;
         }
-       for(char ch: s1){
-            if(val[ch-'a']>0) return true;
-            val[ch-'a']++;
-        }
-        return false;
-
     }
-    int solve(int idx,int n,vector<string>& arr,string temp ,vector<int> dp){
-          if(idx>=n) return temp.length();
-          if(dp[idx]!=-1) return dp[idx];
-           int take=0,notTake=0;
-          if(unique(temp,arr[idx])){
-                notTake=solve(idx+1,n,arr,temp,dp);
-          }
-          else{
-            take=solve(idx+1,n,arr,temp+arr[idx],dp);
-            notTake=solve(idx+1,n,arr,temp,dp);
-          }
-          return dp[idx]=max(take,notTake);
+   for(char ch : t){
+    if(mp.find(ch)!=mp.end()){
+        return false;
+    }
+   }
+   return true;
+}
+    int solve(vector<string>& arr,vector<int> &dp,int i,int n,unordered_set<char> mp){
+           if(i>=n){
+            return 0;
+           }
+           int take=0,notTake=notTake=solve(arr,dp,i+1,n,mp);
+           if(takePoss(mp,arr[i])){
+            for(char ch: arr[i]){
+                mp.insert(ch);
+            }
+            take=arr[i].length()+solve(arr,dp,i+1,n,mp);
+            
+           }
+           return max(take,notTake);
+         
     }
     int maxLength(vector<string>& arr) {
-          int n=arr.size();
-          vector<int> dp(16,-1);
-          return solve(0,n,arr,"",dp);
+        int n=arr.size();
+        vector<int> dp(n+1,-1);
+        unordered_set<char> mp;
+        return solve(arr,dp,0,n,mp);
     }
 };
