@@ -14,25 +14,30 @@ bool takePoss(unordered_set<char>& mp,string t){
    }
    return true;
 }
-    int solve(vector<string>& arr,vector<int> &dp,int i,int n,unordered_set<char> mp){
+    int solve(vector<string>& arr,vector<int> &dp,int i,int n,unordered_set<char> mp,string s,unordered_map<string,int> &mp2){
            if(i>=n){
             return 0;
            }
-           int take=0,notTake=notTake=solve(arr,dp,i+1,n,mp);
+           if(mp2.find(s)!=mp2.end()){
+            return mp2[s];
+           }
+           int take=0,notTake=notTake=solve(arr,dp,i+1,n,mp,s,mp2);
            if(takePoss(mp,arr[i])){
             for(char ch: arr[i]){
                 mp.insert(ch);
             }
-            take=arr[i].length()+solve(arr,dp,i+1,n,mp);
+            take=arr[i].length()+solve(arr,dp,i+1,n,mp,s+arr[i],mp2);
             
            }
-           return max(take,notTake);
+           return mp2[s]=max(take,notTake);
          
     }
     int maxLength(vector<string>& arr) {
         int n=arr.size();
         vector<int> dp(n+1,-1);
+        string s="";
         unordered_set<char> mp;
-        return solve(arr,dp,0,n,mp);
+        unordered_map<string,int> mp2;
+        return solve(arr,dp,0,n,mp,s,mp2);
     }
 };
