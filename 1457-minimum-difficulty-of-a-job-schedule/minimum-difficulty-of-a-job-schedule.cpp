@@ -1,23 +1,34 @@
 class Solution {
 public:
-    int t[301][11];
-    int solve(vector<int>&jobD,int d,int n,int idx){
-        if(d==1) return *max_element(jobD.begin()+idx,jobD.end());
-        if(t[idx][d]!=-1){
-             return t[idx][d];
-        }
-        int Max=INT_MIN;
-        int res=INT_MAX;
-        for(int i=idx;i<=(n-d);i++){
-            Max=max(Max,jobD[i]);
-            res=min(res,Max+solve(jobD,d-1,n,i+1));
-        }
-        return t[idx][d]=res;
+int solve(int idx,int n,int d,vector<int>& jd, vector<vector<int>> &dp){
+    if(d==1){
+        int mxEle=jd[idx];
+       for(int i=idx;i<n;i++){
+       mxEle=max(mxEle,jd[i]);
+    
+       } 
+       return mxEle;
     }
-    int minDifficulty(vector<int>& jobD, int d) {
-        int n=jobD.size();
-        memset(t,-1,sizeof(t));
-        if(d>n) return -1;
-        return solve(jobD,d,n,0);
+    if(d==0 || idx==n){
+        return 0;
+    }
+    if(dp[idx][d]!=-1){
+        return dp[idx][d];
+    }
+    int mxEle=jd[idx];
+    int ans=INT_MAX;
+    for(int i=idx;i<=(n-d);i++){
+        mxEle=max(jd[i],mxEle);
+        ans=min(ans,solve(i+1,n,d-1,jd,dp)+mxEle);
+    }
+    return dp[idx][d]=ans;
+}
+    int minDifficulty(vector<int>& jD, int d) {
+        int n=jD.size();
+        vector<vector<int>> dp(n+1,vector<int> (d+1,-1)); 
+        if(n<d){
+            return-1;
+        }
+        return solve(0,n,d,jD,dp);
     }
 };
