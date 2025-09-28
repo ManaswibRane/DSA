@@ -18,6 +18,7 @@ bool takePoss(unordered_set<char>& mp,string t){
            if(i>=n){
             return 0;
            }
+           sort(s.begin(),s.end());
            if(mp2.find(s)!=mp2.end()){
             return mp2[s];
            }
@@ -29,6 +30,7 @@ bool takePoss(unordered_set<char>& mp,string t){
             take=arr[i].length()+solve(arr,dp,i+1,n,mp,s+arr[i],mp2);
             
            }
+
            return mp2[s]=max(take,notTake);
          
     }
